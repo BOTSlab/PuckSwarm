@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Originally auto-generated from Eclipse, but then edited. -->
+<project basedir="." default="help" name="PuckSwarm"
+    xmlns:ivy="antlib:org.apache.ivy.ant" >
+
+    <property name="classes.dir" value="classes"/>
+
+    <!-- Location of jar files managed by ivy, and not managed by ivy -->
+    <property name="lib.dir" value="lib"/>
+    <property name="non-ivy-lib.dir" value="non-ivy-lib"/>
+
+    <path id="lib-jars">
+        <fileset dir="${lib.dir}" />
+    </path>
+    <path id="non-ivy-lib-jars">
+        <fileset dir="${non-ivy-lib.dir}" />
+    </path>
+
+    <path id="PuckSwarm.classpath">
+        <pathelement location="${classes.dir}"/>
+        <path refid="lib-jars"/>
+        <path refid="non-ivy-lib-jars"/>
+    </path>
+
+    <target name="help">
+        <echo message="ant help -- print this message"/>
+        <echo message="ant init  -- creates classes and lib dirs"/>
+        <echo message="ant clean -- removes classes and lib dirs"/>
+        <echo message="ant resolve  -- uses ivy to get external jars"/>
+        <echo message="ant compile -- compiles the source"/>
+        <echo message="ant RunTestbed -- runs the simulation with GUI"/>
+        <echo message="ant RunOffline -- runs the simulation w/o GUI"/>
+        <echo message=""/>
+        <echo message="-- The following additional targets are available."/>
+        <echo message="-- See src for details."/>
+        <echo message=""/>
+        <echo message="ant Analyze"/>
+        <echo message="ant AnalyzeAggregate"/>
+        <echo message="ant CallPostPainter"/>
+        <echo message="ant FinalBarplot"/>
+        <echo message="ant GridPlotter"/>
+        <echo message="ant Plotter"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${lib.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="resolve" depends="init"
+        description="retreive dependencies with ivy">
+
+        <ivy:retrieve />
+    </target>
+
+    <target name="clean">
+        <delete dir="${classes.dir}"/>
+        <delete dir="${lib.dir}"/>
+    </target>
+
+    <target depends="init,resolve" name="compile">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" destdir="${classes.dir}" includeantruntime="false" >
+            <src path="src"/>
+            <exclude name="sensors/CameraImagePanel.java"/>
+            <exclude name="controllers/ColourSeekBehaviour.java"/>
+            <exclude name="controllers/VFHSteerAwayBehaviour.java"/>
+            <exclude name="controllers/ColourBackupBehaviour.java"/>
+            <exclude name="controllers/EscapeOthersBehaviour.java"/>
+            <exclude name="controllers/EscapeStasisBehaviour.java"/>
+            <exclude name="controllers/SeekBehaviour.java"/>
+            <exclude name="controllers/SimpleAvoidBehaviour.java"/>
+            <exclude name="controllers/BehaviourUtils.java"/>
+            <exclude name="controllers/RandomTurnBehaviour.java"/>
+            <exclude name="controllers/SteerAwayBehaviour.java"/>
+            <exclude name="controllers/TurnSignBehaviour.java"/>
+            <exclude name="controllers/BackupAndTurnBehaviour.java"/>
+            <exclude name="controllers/HPMBehaviour.java"/>
+            <exclude name="controllers/CacheConsensusBehaviour.java"/>
+            <classpath refid="PuckSwarm.classpath"/>
+        </javac>
+    </target>
+
+    <target name="RunTestbed" depends="compile">
+        <java classname="arena.RunTestbed" failonerror="true" fork="yes">
+            <jvmarg line="-ea -Xss8m -Xms512M -Xmx1524M"/>
+            <classpath refid="PuckSwarm.classpath"/>
+        </java>
+    </target>
+
+    <target name="RunOffline" depends="compile">
+        <java classname="arena.RunOffline" failonerror="true" fork="yes">
+            <jvmarg line="-ea -Xss8m -Xms512M -Xmx2500M"/>
+            <arg line="/home/av/SCALE true"/>
+            <classpath refid="PuckSwarm.classpath"/>
+        </java>
+    </target>
+
+    <target name="Analyze" depends="compile">
+        <java classname="analysis.Analyze" failonerror="true" fork="yes">
+            <arg line="/home/av/DATA/SI12/SIM/SCALE 20"/>
+            <classpath refid="PuckSwarm.classpath"/>
+        </java>
+    </target>
+
+    <target name="AnalyzeAggregate" depends="compile">
+        <java classname="analysis.AnalyzeAggregate" failonerror="true" fork="yes">
+            <classpath refid="PuckSwarm.classpath"/>
+        </java>
+    </target>
+
+    <target name="CallPostPainter" depends="compile">
+        <java classname="analysis.CallPostPainter" failonerror="true" fork="yes">
+            <classpath refid="PuckSwarm.classpath"/>
+        </java>
+    </target>
+
+    <target name="FinalBarplot" depends="compile">
+        <java classname="analysis.FinalBarplot" failonerror="true" fork="yes">
+            <classpath refid="PuckSwarm.classpath"/>
+        </java>
+    </target>
+
+    <target name="GridPlotter" depends="compile">
+        <java classname="analysis.GridPlotter" failonerror="true" fork="yes">
+            <classpath refid="PuckSwarm.classpath"/>
+        </java>
+    </target>
+
+    <target name="Plotter" depends="compile">
+        <java classname="analysis.Plotter" failonerror="true" fork="yes">
+            <classpath refid="PuckSwarm.classpath"/>
+        </java>
+    </target>
+
+</project>
