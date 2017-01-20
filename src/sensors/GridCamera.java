@@ -20,7 +20,8 @@ public class GridCamera implements Sensor {
 	Arena arena;
 
 	public static final char SLASH = File.separatorChar;
-	public static final String CALIB_DIR = System.getProperty("user.home") + SLASH + "work" + SLASH + "data" + SLASH + "srv1" + SLASH + "grid_calib";
+	//public static final String CALIB_DIR = System.getProperty("user.home") + SLASH + "av_work" + SLASH + "data" + SLASH + "srv1" + SLASH + "grid_calib";
+	public static final String CALIB_DIR = "data" + SLASH + "srv1" + SLASH + "grid_calib";
 	private GridCalibration calib = new GridCalibration(CALIB_DIR + SLASH + "192.168.0.114", 160, 120);
 	
 	private int imageWidth = calib.getImageWidth();

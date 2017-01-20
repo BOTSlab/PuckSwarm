@@ -40,6 +40,13 @@
         <echo message="ant FinalBarplot"/>
         <echo message="ant GridPlotter"/>
         <echo message="ant Plotter"/>
+        <echo message=""/>
+        <echo message="-- The following targets build jar files."/>
+        <echo message=""/>
+        <echo message="ant sim.jar"/>
+        <echo message="ant plotter.jar"/>
+        <echo message="ant analyze_aggregate.jar"/>
+
     </target>
 
     <target name="init">
@@ -105,6 +112,7 @@
 
     <target name="AnalyzeAggregate" depends="compile">
         <java classname="analysis.AnalyzeAggregate" failonerror="true" fork="yes">
+            <arg line="/Users/av/DATA/ALR16 1"/>
             <classpath refid="PuckSwarm.classpath"/>
         </java>
     </target>
@@ -131,6 +139,63 @@
         <java classname="analysis.Plotter" failonerror="true" fork="yes">
             <classpath refid="PuckSwarm.classpath"/>
         </java>
+    </target>
+
+    <target name="sim.jar" depends="compile">
+        <jar jarfile="sim.jar">
+            <fileset dir="${classes.dir}"/>
+            <restrict>
+             <name name="**/*"/>
+              <archives>
+                 <zips>
+                  <fileset dir="${lib.dir}" includes="**/*.jar"/>
+                  <fileset dir="${non-ivy-lib.dir}" includes="**/*.jar"/>
+                 </zips>
+              </archives>
+              </restrict>
+            <manifest>
+                <attribute name="Main-Class"
+                    value="arena.RunTestbed" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="plotter.jar" depends="compile">
+        <jar jarfile="plotter.jar">
+            <fileset dir="${classes.dir}"/>
+            <restrict>
+             <name name="**/*"/>
+              <archives>
+                 <zips>
+                  <fileset dir="${lib.dir}" includes="**/*.jar"/>
+                  <fileset dir="${non-ivy-lib.dir}" includes="**/*.jar"/>
+                 </zips>
+              </archives>
+              </restrict>
+            <manifest>
+                <attribute name="Main-Class"
+                    value="analysis.Plotter" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="analyze_aggregate.jar" depends="compile">
+        <jar jarfile="analyze_aggregate.jar">
+            <fileset dir="${classes.dir}"/>
+            <restrict>
+             <name name="**/*"/>
+              <archives>
+                 <zips>
+                  <fileset dir="${lib.dir}" includes="**/*.jar"/>
+                  <fileset dir="${non-ivy-lib.dir}" includes="**/*.jar"/>
+                 </zips>
+              </archives>
+              </restrict>
+            <manifest>
+                <attribute name="Main-Class"
+                    value="analysis.AnalyzeAggregate" />
+            </manifest>
+        </jar>
     </target>
 
 </project>

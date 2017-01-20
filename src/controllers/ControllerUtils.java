@@ -5,7 +5,7 @@ import experiment.ExperimentManager;
 public class ControllerUtils {
 	public static Controller create(boolean presetCaches) {
 		String controllerType = ExperimentManager.getCurrent().getProperty(
-				"controllerType", "BucketBrigade", null);
+				"controllerType", "CacheCons", null);
 		
 		Controller controller = null;
 		if (controllerType.equals("TestMovement"))
